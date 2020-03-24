@@ -15,7 +15,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/apps/ngwn-app",
+            "outputPath": "dist/ngwn-app/browser",
             "index": "apps/ngwn-app/src/index.html",
             "main": "apps/ngwn-app/src/main.ts",
             "polyfills": "apps/ngwn-app/src/polyfills.ts",
@@ -93,6 +93,60 @@
             "tsConfig": "apps/ngwn-app/tsconfig.spec.json",
             "passWithNoTests": true,
             "setupFile": "apps/ngwn-app/src/test-setup.ts"
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/ngwn-app/server",
+            "main": "apps/ngwn-app/server.ts",
+            "tsConfig": "apps/ngwn-app/tsconfig.server.json",
+            "externalDependencies": [
+              "@nestjs/microservices",
+              "@nestjs/microservices/microservices-module",
+              "@nestjs/websockets",
+              "@nestjs/websockets/socket-module",
+              "cache-manager"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "apps/ngwn-app/src/environments/environment.ts",
+                  "with": "apps/ngwn-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": false
+            }
+          }
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "options": {
+            "browserTarget": "ngwn-app:build",
+            "serverTarget": "ngwn-app:server"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ngwn-app:build:production",
+              "serverTarget": "ngwn-app:server:production"
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "ngwn-app:build:production",
+            "serverTarget": "ngwn-app:server:production",
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {}
           }
         }
       }
