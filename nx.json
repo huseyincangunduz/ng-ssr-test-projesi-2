@@ -1,0 +1,22 @@
+{
+  "npmScope": "nest-installation",
+  "implicitDependencies": {
+    "angular.json": "*",
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    "tsconfig.json": "*",
+    "tslint.json": "*",
+    "nx.json": "*"
+  },
+  "projects": {
+    "ngwn-app": {
+      "tags": []
+    },
+    "ngwn-app-e2e": {
+      "tags": [],
+      "implicitDependencies": ["ngwn-app"]
+    }
+  }
+}
